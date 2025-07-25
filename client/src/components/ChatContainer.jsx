@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useEffect, useRef } from "react"; 
+
 import assets, { messagesDummyData } from "../assets/assets";
+import { formatmessagetime } from "../lib/util";
 
 const ChatContainer = ({ selectedUser, setselecteduser }) => {
+  const scrollEnd = useRef(null);
+  useEffect(() => {
+    if (scrollEnd.current) {
+      scrollEnd.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
   return selectedUser ? (
     <div className="h-full overflow-scroll relative backdrop-blur-lg ">
       <div className="flex items-center gap-3 py-3 mx-4 border-b border-stone-500">
@@ -25,7 +34,7 @@ const ChatContainer = ({ selectedUser, setselecteduser }) => {
           <div
             key={index}
             className={`flex items-end  gap-2 justify-end ${
-              msg.senderId === "680f50aaf10f3cd28382ecf2" && "flex-row-reverse"
+              msg.senderId === "680f50e4f10f3cd28382ecf9" && "flex-row-reverse"
             }`}
           >
             {msg.image ? (
@@ -37,7 +46,7 @@ const ChatContainer = ({ selectedUser, setselecteduser }) => {
             ) : (
               <p
                 className={`p-2 max-w-[200px] md:text-sm font-light rounded-lg mb-8 break-all bg-violet-500/30 text-white ${
-                  msg.senderId === "680f50aaf10f3cd28382ecf2"
+                  msg.senderId === "680f50e4f10f3cd28382ecf9"
                     ? "rounded-br-none"
                     : "rounded-bl-none"
                 }`}
@@ -46,9 +55,16 @@ const ChatContainer = ({ selectedUser, setselecteduser }) => {
               </p>
             )}
             <div className="text-center text-xs">
-              <img src={msg.senderId=== '680f50aaf10f3cd28382ecf2' ? assets.avatar_icon : assets.profile_martin} alt="" className="w-7 rounded-full" />
-              <p className="text-gray-500">{msg.createdAt}</p>
-
+              <img
+                src={
+                  msg.senderId === "680f50e4f10f3cd28382ecf9"
+                    ? assets.avatar_icon
+                    : assets.profile_martin
+                }
+                alt=""
+                className="w-7 rounded-full"
+              />
+              <p className="text-gray-500">{ formatmessagetime(msg.createdAt)}</p>
             </div>
             <img
               src={
@@ -61,6 +77,8 @@ const ChatContainer = ({ selectedUser, setselecteduser }) => {
             />
           </div>
         ))}
+
+        <div ref={scrollEnd}></div>
       </div>
     </div>
   ) : (
