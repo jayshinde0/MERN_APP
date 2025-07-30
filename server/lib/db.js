@@ -8,7 +8,7 @@ export const connectDB = async () => {
            
     }
     catch(error){
-
+        console.error("MongoDB connection error:", error);
     }
 
 }
