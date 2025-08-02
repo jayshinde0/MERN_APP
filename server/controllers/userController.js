@@ -30,7 +30,32 @@ export const signup = async (req, res) => {
     });
   } catch (error) {
     console.error("Error in signup:", error);
-     res.json({
+    res.json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};
+
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const userData = await User.findOne({ email });
+
+    const isPasswordValid = await bcrypt.compare(password, userData.password);
+    if (!isPasswordValid) {
+      return res.json({ success: false, message: "Invalid credentials" });
+    }
+    const token = generateToken(userData._id);
+    res.json({
+      success: true,
+      userData,
+      token,
+      message: "Login successfully",
+    });
+  } catch (error) {
+    console.error("Error in signup:", error);
+    res.json({
       success: false,
       message: error.message || "Internal server error",
     });
