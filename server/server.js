@@ -4,6 +4,8 @@ import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
 import { connectDB } from "./lib/db.js";
+import user from "./models/user.js";
+import userRoutes from "./routes/userRoutes.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -12,10 +14,11 @@ const server = http.createServer(app);
 app.use(express.json({ limit: "4mb" }));
 app.use(cors());
 
-// API Route
+// Route setup
 app.get("/api/status", (req, res) => {
   res.send("Server is Live");
 });
+app.use("/api/auth", userRoutes);
 
 // Connect to MongoDB
 await connectDB();
