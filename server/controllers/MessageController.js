@@ -33,3 +33,17 @@ export const getUserForSidebar = async (req, res) => {
     });
   }
 };
+
+//get all messages for selected user
+export const getMessages = async (req, res) => {
+  try {
+    const {id:selectedUserId} = req.params;
+    const myId = req.user._id;
+  } catch (error) {
+    console.error("Error in getUserForSidebar:", error.message);
+    res.json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};
