@@ -49,7 +49,12 @@ export const getMessages = async (req, res) => {
     await Message.updateMany(
       { sender_id: selectedUserId, receiver_id: myId, Seen: false },
       { $set: { Seen: true } }
-    ); 
+    );
+    res.json({
+      success: true,
+      messages,
+    });
+
     res.json({
       success: true,
       messages,
