@@ -7,7 +7,7 @@ export const getUserForSidebar = async (req, res) => {
       .find({ _id: { $ne: userId } })
       .select("-password");
 
-    //Count number of unseen messages for each user
+    //Count number of unseen messages for each users
     const unseenMessages = {};
     const promises = fliteredUser.map(async (user) => {
       const messages = await Message.find({
