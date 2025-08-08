@@ -54,13 +54,25 @@ export const getMessages = async (req, res) => {
       success: true,
       messages,
     });
-
-    res.json({
-      success: true,
-      messages,
-    });
   } catch (error) {
     console.error("Error in getUserForSidebar:", error.message);
+    res.json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};
+//api to mark all messages as seen
+export const markAllMessagesAsSeen = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Message.findbyIdAndUpdate(id, { Seen: true });
+    res.json({
+      success: true,
+      message: "All messages marked as seen",
+    });
+  } catch (error) {
+    console.error("Error in markAllMessagesAsSeen:", error.message);
     res.json({
       success: false,
       message: error.message || "Internal server error",
