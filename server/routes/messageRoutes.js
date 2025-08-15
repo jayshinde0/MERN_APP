@@ -1,1 +1,4 @@
-import express from 'express';
+import express from 'express';      
+const messageRouter = express.Router();
+
+messageRouter.get('/users',protectRoute,getUsersForSidebar);
